@@ -10,8 +10,9 @@
 // const http = require("http");
 // const createServer = http.createServer;
 const { createServer } = require("http"); // Node.js의 http 모듈을 가져오는 코드
-const app = require("./app");
+const app = require("./app"); // app.js에서 Express 앱 불러오기
 const { Server } = require("socket.io");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
 // Express로 만든 앱(app)을 httpServer에 합쳐서 HTTP 서버 만들기
@@ -24,11 +25,25 @@ const io = new Server(httpServer, {
     origin: "http://localhost:3000", // 프론트 주소
   },
 });
-
-// require("./utils/io") => io.js 파일에 접근해서 module.exprts로 내보낸 값 가져오기
+// require("./utils/io") => io.js 파일에 접근해서 module.exports로 내보낸 값 가져오기
 // 내보내진 값 = 함수, io 객체를 인수로 넣어서 바로 실행해버리기
-require("./utils/io")(io);
+require("./utils/io")(io); // socket.io 이벤트 처리 모듈 불러오기
 
-httpServer.listen(process.env.PORT, () => {
-  console.log("server listening on port", process.env.PORT);
-});
+// 모든 작업을 관리하는 메인 비동기 함수
+const startServer = async () => {
+  try {
+    // 1. app.js에서 시작된 DB 연결이 완료될 때까지 기다리기
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("DB 연결 완료");
+
+    // 2. DB 연결 완료되고 나서 서버 열고 소켓 이벤트 처리
+    // 서버를 여는 코드
+    httpServer.listen(process.env.PORT, () => {
+      console.log("server listening on port", process.env.PORT);
+    });
+  } catch (error) {
+    console.log("DB 연결 실패: ", error);
+  }
+};
+
+startServer();

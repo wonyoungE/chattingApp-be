@@ -8,7 +8,8 @@ const cors = require("cors"); // cors(Cross Origin Resource Sharing) 세팅
 const app = express(); // 앱 객체 생성
 app.use(cors()); // 어떤 주소든 접근 가능
 
-// DB 연결
+// DB 연결 시도, User같은 DB 관련 객체 정의
+// mongoose.connect() -> 연결 시작 역할
 mongoose
   .connect(process.env.MONGODB_URI) // 프로미스 객체 반환
   .then(() => console.log("connected to database"))
