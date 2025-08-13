@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  room: {
+    // 어떤 채팅방에 들어있는지 정보 저장
+    type: mongoose.Schema.ObjectId,
+    ref: "Room",
+  },
 });
 
 // module.exports 하면 다른 파일에서 require() 함수로 불러와서 사용 가능

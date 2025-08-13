@@ -7,6 +7,7 @@ require("dotenv").config(); // .env 파일에 있는 값들을 Node.js가 읽을
 const cors = require("cors"); // cors(Cross Origin Resource Sharing) 세팅
 const app = express(); // 앱 객체 생성
 app.use(cors()); // 어떤 주소든 접근 가능
+const Room = require("./Models/room");
 
 // DB 연결 시도, User같은 DB 관련 객체 정의
 // mongoose.connect() -> 연결 시작 역할
@@ -14,5 +15,23 @@ mongoose
   .connect(process.env.MONGODB_URI) // 프로미스 객체 반환
   .then(() => console.log("connected to database"))
   .catch((error) => console.log(error)); // 에러 처리
+
+// 임의로 채팅방 만들기, mongodb에 넣을거라 그냥 한 번만 실행하면 댐
+// app.get("/", async (req, res) => {
+//   Room.insertMany([
+//     {
+//       room: "리액트 단톡방",
+//       members: [],
+//     },
+//     {
+//       room: "NodeJs 단톡방",
+//       members: [],
+//     },
+//   ])
+//     .then(() => res.send("ok"))
+//     .catch((error) => {
+//       res.send(error);
+//     });
+// });
 
 module.exports = app;

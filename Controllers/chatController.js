@@ -10,6 +10,7 @@ chatController.saveChat = async (message, user) => {
       id: user._id, // _id는 mongoDB가 부여한 번호
       name: user.name,
     },
+    room: user.room, // 채팅에 채팅방 정보 추가
   });
   await newMessage.save();
   return newMessage;

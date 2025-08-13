@@ -12,6 +12,11 @@ const chatSchema = new mongoose.Schema(
       },
       name: String,
     },
+    room: {
+      // 어떤 채팅방에 보내는 메세지?
+      type: mongoose.Schema.ObjectId,
+      ref: "Room",
+    },
   },
   { timestamp: true } // Mongoose가 createdAt, updatedAt 필드 자동 추가해줌
 );
