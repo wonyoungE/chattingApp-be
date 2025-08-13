@@ -29,6 +29,15 @@ userController.saveUser = async (userName, socketId) => {
   return user;
 };
 
+// 유저 찾는 함수
+userController.checkUser = async (socketId) => {
+  const user = await User.findOne({ token: socketId });
+  if (!user) {
+    throw new Error("user not fonud");
+  }
+  return user;
+};
+
 // userController 객체 자체를 내보내기
 // 다른 파일에서 require로 userController 가져다 쓸 수 있음
 // 모듈화
